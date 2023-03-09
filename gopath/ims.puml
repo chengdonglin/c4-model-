@@ -1,0 +1,32 @@
+@startuml
+
+!include C4-PlantUML\\C4_Container.puml
+
+'LAYOUT_WITH_LEGEND()
+
+
+title System Context diagram for IMS
+
+Person(Device,"Device")
+
+Person(User,"User")
+
+System_Boundary(Local-IMS, "Local IMS"){
+    System(Web, "Web UI", "")
+    System(Server, "Web Server", "")
+}
+
+System_Ext(AzureStorage, "Azure Storage")
+
+System_Ext(CloudIms, "Cloud IMS")
+
+
+Rel(Server,Device,"Monitor File Create")
+
+Rel(Server,AzureStorage,"Upload")
+
+Rel(CloudIms,AzureStorage,"Sync")
+
+Rel(User,CloudIms,"View")
+
+@enduml

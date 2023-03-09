@@ -1,0 +1,22 @@
+@startuml
+|发起人|
+start
+:发起审批;
+|审批人|
+:收到审批待办通知;
+:操作审批;
+split
+|发起人|
+:收到审批结果通知;
+end
+split again
+|审批人|
+if (审批是否通过) then (No)
+|审批人|
+end
+else (Yes)
+|抄送人|
+:收到审批结果(已通过)通知;
+endif
+end
+@enduml
