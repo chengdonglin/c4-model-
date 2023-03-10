@@ -1,0 +1,56 @@
+@startuml
+
+!include C4-PlantUML/C4_Container.puml
+!include C4-PlantUML/C4_Component.puml
+
+LAYOUT_TOP_DOWN()
+'LAYOUT_AS_SKETCH
+LAYOUT_WITH_LEGEND()
+
+title Container diagram for DgLogic
+
+Person(customer, Customer, "A customer of the DgLogic,include painent, docktor,adimin")
+
+System_Boundary(gateway, "Gateway") {
+    Container(OpenGateway, "open-gateway", "Java, spring cloud gateway")
+    Container(InternelGateway, "Internel-Gateway", "Java, spring cloud gateway")
+}
+
+
+System_Boundary(AggregateApplication, "AggregateApplication") {
+    Container("gpis", "gpis", "Java, springboot")
+    Container("ims", "gpis", "Java, springboot")
+}
+
+System_Boundary(services, "services") {
+    System(DeviceService, "DeviceService", "Java, springboot")
+    System(LienceService, "LienceService", "Java, springboot")
+    System(UserService, "UserService", "Java, springboot"){
+        Container("User", "User")
+        Container("Role", "Role")
+        Container("Permission", "Permission")
+        Container("Facility", "Facility")
+    }
+    System(SlideService, "SlideService", "Java, springboot"){
+        Container("Case", "Case")
+        Container("Slide", "Slide")
+    }
+    System(MeetingService, "MeetingService", "Java, springboot")
+    System(AuthenticationService, "AuthenticationService", "Java, springboot")
+    System(SettingService, "SettingService", "Java, springboot")
+    System(AnnatationService, "SettingService", "Java, springboot")
+    System(RegisterService, "RegisterService", "Java, springboot")
+    System(FileService,"FileService","Java,Springboot,Minio")
+}
+
+System_Boundary(base, "base"){
+     Container("Mysql", "Mysql")
+     Container("Kafka", "Kafka")
+     Container("Minio","Minio")
+}
+
+Rel(customer,gateway,"HTTP")
+Rel(gateway,AggregateApplication,"HTTP")
+Rel(AggregateApplication,services,"RPC")
+Rel(services,base,"SDK")
+@enduml
