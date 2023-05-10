@@ -1,0 +1,54 @@
+@startuml
+!include C4-PlantUML/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+LAYOUT_TOP_DOWN()
+'LAYOUT_AS_SKETCH
+LAYOUT_WITH_LEGEND()
+
+title 一般系统架构图
+
+System_Boundary(client, "客户端") {
+    Container(pc,"pc")
+    Container(h5,"h5")
+    Container(app,"app")
+    Container(小程序,"小程序")
+}
+
+System_Boundary(gateway, "gateway") {
+    Container(nginx,"nginx")
+}
+
+
+
+System_Boundary(web服务, "web_service") {
+    Container(serviceA,"serviceA")
+    Container(serviceB,"serviceB")
+    Container(serviceC,"serviceC")
+    Container(serviceD,"serviceD")
+}
+
+System_Boundary(base服务, "base_service") {
+    Container(base_service_a,"serviceA")
+    Container(base_service_b,"serviceB")
+    Container(base_service_c,"serviceC")
+    Container(base_service_d,"serviceD")
+}
+
+
+System_Boundary(dbStore, "dbStore") {
+    Container(redis,"redis")
+    Container(mysql,"mysql")
+    Container(mq,"mq")
+    Container(es,"es")
+}
+
+
+Rel(client,gateway,"http")
+
+Rel(gateway,web服务,"proxy")
+
+Rel(web服务,base服务,"RPC")
+
+Rel(base服务,dbStore,"SDK")
